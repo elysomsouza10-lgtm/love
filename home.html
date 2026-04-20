@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="src/output.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .perspective {
+        perspective: 1500px;
+      }
+
+      .page {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transform-origin: left;
+        transition: transform 0.8s;
+        cursor: pointer;
+      }
+
+      .page div {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 10px;
+        font-weight: bold;
+      }
+
+      .front {
+        background: #ec4899;
+        color: white;
+      }
+
+      .back {
+        background: white;
+        color: #be185d;
+        transform: rotateY(180deg);
+      }
+
+      .page.flipped {
+        transform: rotateY(-180deg);
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-r from-pink-600 to-pink-700">
+    <section>
+      <div>
+        <h1
+          class="text-3xl text-white text-center font-thin mt-6 hover:translate-x-3 transition-all duration-700"
+        >
+          seja bem-vinda meu amor!
+        </h1>
+      </div>
+
+      <div class="text-center flex flex-wrap justify-center gap-4 mt-2">
+        <a
+          href="carta.html"
+          class="text-white hover:text-pink-300 underline-none"
+        >
+          Abrir carta
+        </a>
+        <a
+          href="frase.html"
+          class="text-white hover:text-pink-300 underline-none"
+        >
+          Frases
+        </a>
+      </div>
+    </section>
+    <section class="flex flex-col items-center mt-10">
+      <h2 class="text-white text-center mb-6 text-lg">
+        vire as páginas do nosso amor ❤️
+      </h2>
+
+      <!-- LIVRO -->
+      <div class="relative w-80 h-56 perspective">
+        <!-- Página 1 -->
+        <div class="page z-30">
+          <div class="front">💌 Começo</div>
+          <div class="back">Você é a melhor parte do meu dia ❤️</div>
+        </div>
+
+        <!-- Página 2 -->
+        <div class="page z-20">
+          <div class="front">
+            Cada momento com você é especial e eu amo te ter na minha vida ✨
+          </div>
+          <div class="back"></div>
+        </div>
+
+        <!-- Página 3 -->
+        <div class="page z-10">
+          <div class="front">
+            Você é a minha princesa e o meu bem mais precioso
+          </div>
+          <div class="back"></div>
+        </div>
+
+        <!-- Página 4 -->
+        <div class="page z-0">
+          <div class="front">Eu te amo mais do que tudo 💖</div>
+          <div class="back"></div>
+        </div>
+
+        <!--pagina 5-->
+        <div class="page z-0">
+          <div class="front">Meus dias são melhores com você ao meu lado</div>
+          <div class="back"></div>
+        </div>
+      </div>
+
+      <!--pagina 5-->
+
+      <!-- Botão -->
+      <div>
+        <button
+          id="prevPage"
+          class="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-700"
+        >
+          ← Voltar
+        </button>
+        <button
+          id="nextPage"
+          class="mt-6 bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-700"
+        >
+          Próxima →
+        </button>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
