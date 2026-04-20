@@ -1,104 +1,54 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // =========================
-  // 🔐 LOGIN
-  // =========================
-  const form = document.getElementById("loginForm");
-
-  if (form) {
-    const email = document.getElementById("email");
-    const password = document.getElementById("senha");
-    const error = document.getElementById("erro");
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      const emailValue = email.value.trim();
-      const senhaValue = password.value.trim();
-
-      const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-      if (emailValue === "" || senhaValue === "") {
-        error.textContent = "Por favor, preencha todos os campos.";
-        error.classList.remove("hidden");
-        return;
-      }
-
-      if (!emailValido.test(emailValue)) {
-        error.textContent = "Por favor, insira um email válido.";
-        error.classList.remove("hidden");
-        return;
-      }
-
-      error.classList.add("hidden");
-
-      // 🔥 Redireciona
-      window.location.href = "centerpage.html";
-    });
-  }
-
-  // =========================
-  // 📖 LIVRO (páginas virando)
-  // =========================
   const pages = document.querySelectorAll(".page");
   const btnNext = document.getElementById("nextPage");
   const btnPrev = document.getElementById("prevPage");
 
   let currentPage = 0;
 
-  if (pages.length) {
-    // 🔥 ORGANIZA O Z-INDEX AUTOMATICAMENTE
-    function updateZIndex() {
-      pages.forEach((page, index) => {
-        page.style.zIndex = pages.length - index;
-      });
-    }
-
-    updateZIndex();
-
-    // 👉 Próxima página
-    if (btnNext) {
-      btnNext.addEventListener("click", () => {
-        if (currentPage < pages.length) {
-          pages[currentPage].classList.add("flipped");
-          currentPage++;
-        }
-      });
-    }
-
-    // 👉 Página anterior
-    if (btnPrev) {
-      btnPrev.addEventListener("click", () => {
-        if (currentPage > 0) {
-          currentPage--;
-          pages[currentPage].classList.remove("flipped");
-        }
-      });
-    }
-
-    // 👉 Clique direto na página
+  function updateZIndex() {
     pages.forEach((page, index) => {
-      page.addEventListener("click", () => {
-        if (index === currentPage) {
-          page.classList.add("flipped");
-          currentPage++;
-        }
-      });
+      page.style.zIndex = pages.length - index;
     });
   }
 
-  // =========================
-  // 📄 CENTERPAGE BOTÕES
-  // =========================
-  window.prosseguir = function () {
-    window.location.href = "home.html";
-  };
+  updateZIndex();
 
-  window.voltarLogin = function () {
-    window.location.href = "index.html";
-  };
+  function flip(page) {
+    page.classList.add("flipped");
 
-  window.logout = function () {
-    alert("Você saiu 💔");
-    window.location.href = "index.html";
-  };
+    setTimeout(() => {
+      page.classList.add("show-back");
+    }, 400);
+  }
+
+  function unflip(page) {
+    page.classList.remove("show-back");
+
+    setTimeout(() => {
+      page.classList.remove("flipped");
+    }, 100);
+  }
+
+  btnNext.addEventListener("click", () => {
+    if (currentPage < pages.length) {
+      flip(pages[currentPage]);
+      currentPage++;
+    }
+  });
+
+  btnPrev.addEventListener("click", () => {
+    if (currentPage > 0) {
+      currentPage--;
+      unflip(pages[currentPage]);
+    }
+  });
+
+  pages.forEach((page, index) => {
+    page.addEventListener("click", () => {
+      if (index === currentPage) {
+        flip(page);
+        currentPage++;
+      }
+    });
+  });
 });
