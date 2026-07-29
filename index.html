@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nossa História</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #080808;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #ffffff, #7e7e7e);
+      border-radius: 50px;
+    }
+
+    .parallax-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(0, 0, 0, .65),
+          rgba(0, 0, 0, .8)),
+        url("https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=2070");
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.2);
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at top,
+          rgba(255, 255, 255, 0.1),
+          transparent 50%);
+    }
+
+    section {
+      min-height: 100vh;
+      padding: 120px 8%;
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 1000px;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 25px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #d4d4d4;
+      max-width: 700px;
+      margin: auto;
+      line-height: 1.8;
+    }
+
+    .hero-btns {
+      margin-top: 40px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 16px 35px;
+      border-radius: 50px;
+      text-decoration: none;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      transition: .4s;
+    }
+
+    .btn:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, .1);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 3rem;
+      margin-bottom: 80px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid rgba(255, 255, 255, .08);
+      backdrop-filter: blur(15px);
+      padding: 30px;
+      border-radius: 30px;
+      transition: .5s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-15px);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      background: rgba(255, 255, 255, .08);
+      border-radius: 50%;
+      top: -120px;
+      right: -120px;
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    .card p {
+      color: #cfcfcf;
+      line-height: 1.8;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .timeline-item {
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid rgba(255, 255, 255, .08);
+      backdrop-filter: blur(15px);
+      padding: 30px;
+      border-radius: 25px;
+    }
+
+    .timeline-item h4 {
+      margin-bottom: 10px;
+      font-size: 1.4rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+
+    .stat {
+      text-align: center;
+      background: rgba(255, 255, 255, .05);
+      padding: 40px;
+      border-radius: 25px;
+      backdrop-filter: blur(10px);
+    }
+
+    .number {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .memory-wall {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+
+    .memory {
+      height: 320px;
+      border-radius: 25px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .memory img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: .8s;
+    }
+
+    .memory:hover img {
+      transform: scale(1.1);
+    }
+
+    .memory::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(transparent, rgba(0, 0, 0, .8));
+    }
+
+    .memory span {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      z-index: 2;
+      font-weight: 600;
+    }
+
+    .message-box {
+      max-width: 900px;
+      margin: auto;
+      background: rgba(255, 255, 255, .05);
+      backdrop-filter: blur(15px);
+      border-radius: 30px;
+      padding: 50px;
+      text-align: center;
+    }
+
+    .message-box p {
+      line-height: 2;
+      color: #d4d4d4;
+      font-size: 1.1rem;
+    }
+
+    footer {
+      padding: 60px;
+      text-align: center;
+      color: #aaa;
+    }
+
+    .mouse-glow {
+      position: fixed;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+          rgba(255, 255, 255, .15),
+          transparent 70%);
+      pointer-events: none;
+      z-index: 999;
+      transform: translate(-50%, -50%);
+    }
+
+    @media(max-width:768px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+
+      section {
+        padding: 100px 20px;
+      }
+    }
+
+    .heart-finale {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .heart-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      left: 50%;
+      top: 50%;
+      opacity: 0;
+      will-change: transform;
+    }
+
+    .final-message {
+      text-align: center;
+      z-index: 10;
+    }
+
+    .final-message h2 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      max-width: 900px;
+    }
+
+    .floating-hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+      overflow: hidden;
+    }
+
+    .scroll-heart {
+      position: absolute;
+      font-size: 20px;
+      opacity: 0;
+      will-change: transform;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="parallax-bg"></div>
+  <div class="overlay"></div>
+  <div class="mouse-glow"></div>
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <h1 class="hero-title">
+        Um presente para você ❤️
+
+      </h1>
+      <p class="hero-text">
+        Hoje dediquei o meu tempo para fazer esta simples surpresa para você,
+        e aqui quero lhe dizer que você está se tornando uma pessoa miuto importante 
+        para mim, e embora que, nós não tenhamos nada ainda, quero lhe dizer que eu gosto
+        muito de você e espero que possamos ter um futuro juntos ❤️
+      </p>
+      <div class="hero-btns">
+        <a href="#sobre" class="btn">
+          Nossa Conexão
+        </a>
+
+        <a href="#momentos" class="btn">
+          Descobrir Mais
+        </a>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="sobre">
+
+    <h2 class="section-title reveal">
+      O Que Estamos Construindo para o nosso possível futuro juntos
+    </h2>
+
+    <div class="cards">
+
+      <div class="card reveal">
+        <h3>Nós estamos nos Conhecendo aos Poucos</h3>
+        <p>
+          Cada conversa revela novos detalhes,
+          novas histórias e novos motivos para continuar
+          descobrindo quem você realmente é.
+        </p>
+      </div>
+
+      <div class="card reveal">
+        <h3> A nossa Conexão foi Verdadeira</h3>
+        <p>
+          Não é sobre pressa.
+          É sobre criar algo genuíno,
+          baseado em confiança, curiosidade e presença.
+        </p>
+      </div>
+
+      <div class="card reveal">
+        <h3>Futuro Não muito distante</h3>
+        <p>
+          O mais interessante é que ainda existem milhares
+          de conversas, risadas e momentos para acontecer.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section>
+
+    <h2 class="section-title reveal">
+      Linha do Tempo
+    </h2>
+
+    <div class="timeline">
+
+      <div class="timeline-item reveal">
+        <h4>Primeira Conversa</h4>
+        <p>
+          Tudo começou com uma simples troca de palavras em um app de conversa.
+        </p>
+      </div>
+
+      <div class="timeline-item reveal">
+        <h4>Conversas Diárias</h4>
+        <p>
+          Aos poucos as mensagens deixaram de ser ocasionais
+          e passaram a fazer parte da nossa rotina, e fazendo a gente se conhecer melhor.
+        </p>
+      </div>
+
+      <div class="timeline-item reveal">
+        <h4>Criando Confiança</h4>
+        <p>
+          Aos poucos, a nossa confiança vai se aprimorando criando um vinculo de amor
+          entre nós.
+        </p>
+      </div>
+
+      <div class="timeline-item reveal">
+        <h4>Atualidade</h4>
+        <p>
+          Continuamos descobrindo um ao outro,
+          sem saber exatamente onde isso vai chegar.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section>
+
+    <h2 class="section-title reveal">
+      Nossa Jornada em Números
+    </h2>
+
+    <div class="stats">
+
+      <div class="stat reveal">
+        <div class="number" data-value="100000">0</div>
+        <p>Conversas Marcantes</p>
+      </div>
+
+      <div class="stat reveal">
+        <div class="number" data-value="1000000">0</div>
+        <p>Sorrisos Provocados</p>
+      </div>
+
+      <div class="stat reveal">
+        <div class="number" data-value="365">0</div>
+        <p>Possibilidades Futuras</p>
+      </div>
+
+      <div class="stat reveal">
+        <div class="number" data-value="100000">0</div>
+        <p>Momentos Pela Frente</p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section>
+
+    <div class="message-box reveal">
+
+      <h2 style="margin-bottom:25px;font-size:2.5rem;">
+        Uma mensagem para você
+      </h2>
+
+      <p>
+        Talvez ainda seja cedo para definir qualquer coisa,
+        mas existe algo bonito em conhecer alguém sem pressa,
+        em descobrir detalhes que não aparecem de imediato,
+        em perceber que algumas pessoas conseguem transformar
+        dias comuns em momentos marcantes.
+        <br><br>
+        E talvez essa seja a melhor parte:
+        ainda estamos apenas no começo da nossa história.
+      </p>
+
+    </div>
+
+  </section>
+  <div class="floating-hearts"></div>
+
+
+  <footer>
+    Feito pelo seu neném kkk 💙
+  </footer>
+  <section class="heart-finale">
+
+    <div class="heart-container"></div>
+
+<h2>
+  ❤️ Voçe é muito especial para mim ❤️
+  <br>
+  Obrigado por fazer parte da minha vida.
+</h2>
+  </section>
+
+  <script>
+    const heartContainer = document.querySelector(".heart-container");
+
+    for (let i = 0; i < 150; i++) {
+
+      const heart = document.createElement("div");
+
+      heart.classList.add("heart");
+
+      const hearts = ["❤️", "💖", "💕", "💘", "💝"];
+
+      heart.innerHTML =
+        hearts[Math.floor(Math.random() * hearts.length)];
+
+      heartContainer.appendChild(heart);
+
+      const angle = Math.random() * Math.PI * 2;
+
+      const distance = 500 + Math.random() * 1200;
+
+      const x = Math.cos(angle) * distance;
+      const y = Math.sin(angle) * distance;
+
+      gsap.set(heart, {
+        x: 0,
+        y: 0,
+        scale: 0
+      });
+
+      gsap.to(heart, {
+        x,
+        y,
+        scale: 0.5 + Math.random() * 2,
+        rotation: Math.random() * 1080,
+        opacity: 1,
+        ease: "power4.out",
+
+        scrollTrigger: {
+          trigger: ".heart-finale",
+          start: "top center",
+          end: "bottom center",
+          scrub: 1
+        }
+      });
+
+      gsap.to(heart, {
+        opacity: 0,
+
+        scrollTrigger: {
+          trigger: ".heart-finale",
+          start: "center center",
+          end: "bottom center",
+          scrub: 1
+        }
+      });
+
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.to(".parallax-bg", {
+      yPercent: 20,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "body",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: true
+      }
+    });
+    gsap.from(".hero-btns", {
+      opacity: 0,
+      duration: 1,
+      delay: 3,
+      filter: "blur(20px)",
+      scale: 3
+    })
+
+    gsap.from(".hero-title", {
+      y: 100,
+      textShadow:
+        "0 0 20px #ff4f8b",
+      repeat: -2,
+      yoyo: true,
+      opacity: 0,
+      filter: "blur(30px)",
+      duration: 2,
+      delay: 1
+    });
+
+    gsap.from(".hero-text", {
+      y: 60,
+      opacity: 0,
+      duration: 1.5,
+      delay: 2
+    });
+
+    gsap.utils.toArray(".reveal").forEach(item => {
+
+      gsap.from(item, {
+        y: 80,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: item,
+          start: "top 85%"
+        }
+      });
+
+    });
+
+    gsap.utils.toArray(".card").forEach(card => {
+
+      card.addEventListener("mousemove", e => {
+
+        const rect = card.getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        gsap.to(card, {
+          rotateY: ((x / rect.width) - 0.5) * 20,
+          rotateX: -((y / rect.height) - 0.5) * 20,
+          transformPerspective: 1000,
+          duration: .5
+        });
+
+      });
+
+      card.addEventListener("mouseleave", () => {
+
+        gsap.to(card, {
+          rotateY: 0,
+          rotateX: 0,
+          duration: .8
+        });
+
+      });
+
+    });
+
+    document.querySelectorAll(".number").forEach(number => {
+
+      let value = {
+        count: 0
+      };
+
+      gsap.to(value, {
+
+        count: number.dataset.value,
+
+        duration: 3,
+
+        scrollTrigger: {
+          trigger: number,
+          start: "top 80%"
+        },
+
+        onUpdate() {
+          number.textContent = Math.floor(value.count);
+        }
+
+      });
+
+    });
+
+    const glow = document.querySelector(".mouse-glow");
+
+    window.addEventListener("mousemove", e => {
+
+      gsap.to(glow, {
+        x: e.clientX,
+        y: e.clientY,
+        duration: .4
+      });
+
+    });
+
+    gsap.to(".memory img", {
+      yPercent: -20,
+      ease: "none",
+      stagger: .1,
+      scrollTrigger: {
+        trigger: "#momentos",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+    const floatingHearts = document.querySelector(".floating-hearts");
+
+    function createHeart() {
+
+      const heart = document.createElement("div");
+
+      heart.classList.add("scroll-heart");
+
+      const emojis = [
+        "❤️",
+        "💕",
+        "💖",
+        "💘",
+        "💝"
+      ];
+
+      heart.innerHTML =
+        emojis[Math.floor(Math.random() * emojis.length)];
+
+      const fromLeft = Math.random() > 0.5;
+
+      heart.style.left = fromLeft
+        ? "-50px"
+        : window.innerWidth + "px";
+
+      heart.style.top =
+        Math.random() * window.innerHeight + "px";
+
+      floatingHearts.appendChild(heart);
+
+      gsap.fromTo(
+        heart,
+        {
+          opacity: 0,
+          scale: 0,
+          rotation: 0
+        },
+        {
+          x: fromLeft
+            ? window.innerWidth + 200
+            : -(window.innerWidth + 200),
+
+          y: (Math.random() * 300) - 150,
+
+          rotation:
+            Math.random() * 720,
+
+          scale:
+            0.5 + Math.random() * 2,
+
+          opacity: 1,
+
+          duration:
+            4 + Math.random() * 4,
+
+          ease: "power1.out",
+
+          onComplete() {
+            heart.remove();
+          }
+        }
+      );
+    }
+    let lastScroll = 0;
+
+    window.addEventListener("scroll", () => {
+
+      const currentScroll = window.scrollY;
+
+      if (Math.abs(currentScroll - lastScroll) > 80) {
+
+        createHeart();
+
+        if (Math.random() > 0.6) {
+          createHeart();
+        }
+
+        lastScroll = currentScroll;
+      }
+
+    });
+
+  </script>
+
+</body>
+
+</html>
